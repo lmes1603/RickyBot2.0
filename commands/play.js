@@ -18,13 +18,7 @@ module.exports = {
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
-		var player = null;
-        try{
-            player = useMainPlayer();    
-        }catch(e){
-            player = new Player(client);
-        }
-		
+		const player = new Player(client);		
         await player.extractors.loadDefault();
         const channel = interaction.member.voice.channel;
         if (!channel) return interaction.reply('You are not connected to a voice channel!'); // make sure we have a voice channel

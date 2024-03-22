@@ -8,12 +8,7 @@ module.exports = {
 	execute: async ({ client, interaction }) => {
 
          // Get the queue for the server
-		var player = null;
-        try{
-            player = useMainPlayer();    
-        }catch(e){
-            player = new Player(client);
-        }
+		const player = new Player(client);
         await player.destroy();
         await interaction.reply("Se Cuidaaaan")
 	},
