@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder  } = require("discord.js")
-const { QueryType, useMainPlayer } = require("discord-player")
+const { QueryType, useMainPlayer, Player  } = require("discord-player")
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,8 +18,13 @@ module.exports = {
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
+		var player = null;
+        try{
+            player = useMainPlayer();    
+        }catch(e){
+            player = new Player(client);
+        }
 		
-		const player = useMainPlayer();
         await player.extractors.loadDefault();
         const channel = interaction.member.voice.channel;
         if (!channel) return interaction.reply('You are not connected to a voice channel!'); // make sure we have a voice channel
