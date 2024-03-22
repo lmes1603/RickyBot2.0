@@ -4,9 +4,11 @@ const {REST} = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client, Intents, Collection, GatewayIntentBits } = require('discord.js');
 const { Player } = require("discord-player")
-
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
+const app = express();
+
 const client = new Client({
     intents: [GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
@@ -23,7 +25,7 @@ const client = new Client({
 const commands = [];
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, "commands"); // E:\yt\discord bot\js\intro\commands
+const commandsPath = path.join(__dirname, "commands"); 
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 for(const file of commandFiles)
 {
@@ -39,8 +41,7 @@ client.player = new Player(client, {
     ytdlOptions: {
         quality: "highestaudio",
         highWaterMark: 1 << 25
-    },
-    youtubeKey: 'AIzaSyDjImSQ-3JMrrjG70hS2r4Hp-vO3W70IgQ'
+    }
 })
 
 client.on("ready", () => {
@@ -76,4 +77,12 @@ client.on("interactionCreate", async interaction => {
 });
 
 client.login(process.env.TOKEN);
+
+
+const appPort = 3000;
+
+app.listen(process.env.PORT || appPort, () => {
+    console.info('We are up!');
+}); 
+
 
